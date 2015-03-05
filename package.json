@@ -1,0 +1,26 @@
+{
+  "name": "obrasliterarias",
+  "version": "1.0.0",
+  "description": "http://dojopuzzles.com/problemas/exibe/nomes-de-autores-de-obras-bibliograficas/",
+  "scripts": {
+    "clean": "rimraf dist/",
+    "build": "babel src --out-dir dist --optional runtime",
+    "prebuild": "npm run clean",
+    "autobuild": "babel src --out-dir dist --watch --optional runtime",
+    "preautobuild": "npm run clean",
+    "test": "cd src/; mocha --compilers js:babel/register",
+    "autotest": "cd src/; mocha --compilers js:babel/register --watch"
+  },
+  "keywords": [
+    "dojo", "kata"
+  ],
+  "author": "israel.bgf@gmail.com",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "babel": "^4.6.1",
+    "chai": "^1.10.0",
+    "mocha": "^2.1.0",
+    "rimraf": "^2.2.8"
+  }
+}
