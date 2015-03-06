@@ -21,6 +21,10 @@ describe('Author names formatting', () => {
     it('should capitalize words corretly', () => {
         expect(format('joão do henrique filho')).to.be.equal('HENRIQUE FILHO, João do')
     })
+    
+    it('should disconsider prepositions as lastname', () => {
+        expect(format('joão do filho')).to.be.equal('FILHO, João do')
+    })
 
 });
 
@@ -38,8 +42,10 @@ function format(name) {
 
     if (isSpecialName(lastPart) && nameParts.length >= 3) {
         var beforeLastPart = nameParts[nameParts.length - 2];
-        lastPart = beforeLastPart.toUpperCase() + ' ' + lastPart
-        firstName = firstName.replace(' ' + capitalize(beforeLastPart), '')
+        if(!isPreposition(beforeLastPart)){
+            lastPart = beforeLastPart.toUpperCase() + ' ' + lastPart
+            firstName = firstName.replace(' ' + capitalize(beforeLastPart), '')
+        }
     }
 
     return lastPart + ',' + firstName
