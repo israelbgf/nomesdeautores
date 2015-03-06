@@ -2,20 +2,24 @@ import {expect} from 'chai'
 
 describe('Author names formatting', () => {
 
-    it('Format name with one part', () => {
+    it('should format name with one part', () => {
         expect(format('Guimaraes')).to.be.equal('GUIMARAES')
     })
 
-    it('Format name with two parts', () => {
+    it('should format name with two parts', () => {
         expect(format('João Silva')).to.be.equal('SILVA, João')
     })
 
-    it('Format name with two parts and preposition', () => {
+    it('should format name with two parts and preposition', () => {
         expect(format('João da Silva')).to.be.equal('SILVA, João da')
     })
 
-    it('Format name with three parts and special name', () => {
+    it('should format name with three parts and special name', () => {
         expect(format('João Henrique Filho')).to.be.equal('HENRIQUE FILHO, João')
+    })
+    
+    it('should capitalize words corretly', () => {
+        expect(format('joão do henrique filho')).to.be.equal('HENRIQUE FILHO, João do')
     })
 
 });
@@ -29,13 +33,13 @@ function format(name) {
 
     var firstName = ''
     for (let i = 0; i < nameParts.length - 1; i++) {
-        firstName += ' ' + nameParts[i]
+        firstName += ' ' + capitalize(nameParts[i])
     }
 
     if (isSpecialName(lastPart) && nameParts.length >= 3) {
         var beforeLastPart = nameParts[nameParts.length - 2];
         lastPart = beforeLastPart.toUpperCase() + ' ' + lastPart
-        firstName = firstName.replace(' ' + beforeLastPart, '')
+        firstName = firstName.replace(' ' + capitalize(beforeLastPart), '')
     }
 
     return lastPart + ',' + firstName
@@ -44,4 +48,15 @@ function format(name) {
 function isSpecialName(name){
     return ["FILHO", "FILHA", "NETO", "NETA",
         "SOBRINHO", "SOBRINHA", "JUNIOR"].includes(name.toUpperCase())
+}
+
+function isPreposition(name){
+    return ["da", "de", "do", "das", "dos"].includes(name.toLowerCase())
+}
+
+function capitalize(name){
+    name = name.toLowerCase()
+    if(isPreposition(name))
+        return name
+    return name.charAt(0).toUpperCase() + name.slice(1)
 }
